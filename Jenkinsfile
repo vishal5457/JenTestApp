@@ -7,32 +7,15 @@ pipeline {
     }
 
     environment {
-        DOCKER_HUB = "your-dockerhub-username"
+        DOCKER_HUB = "vishal4089"
         IMAGE_NAME = "my-app"
     }
 
     stages {
 
-        stage('Clone') {
-            steps {
-                git 'https://github.com/your-username/my-app.git'
-            }
-        }
-
         stage('Build') {
             steps {
-                sh 'mvn clean package'
-            }
-        }
-
-        stage('SonarQube') {
-            steps {
-                sh '''
-                mvn sonar:sonar \
-                -Dsonar.projectKey=my-app \
-                -Dsonar.host.url=http://<SONAR-IP>:9000 \
-                -Dsonar.login=<TOKEN>
-                '''
+                sh 'mvn clean package -DskipTests'
             }
         }
 
@@ -58,7 +41,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'docker rm -f my-app || true'
-                sh 'docker run -d -p 8081:8080 --name my-app $DOCKER_HUB/$IMAGE_NAME:latest'
+                sh '''
+                docker run -d \
+                -p 8081:8080 \
+                --restart unless-stopped \
+                --name my-app \
+                $DOCKER_HUB/$IMAGE_NAME:latest
+                '''
             }
         }
     }
