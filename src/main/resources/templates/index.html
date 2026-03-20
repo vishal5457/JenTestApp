@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Showcase </title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #111;
+            color: white;
+            text-align: center;
+        }
+        h1 {
+            color: #ff4d4d;
+        }
+        .cars {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: #222;
+            padding: 15px;
+            border-radius: 10px;
+            width: 300px;
+            transition: 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1> Dream Cars Showcase</h1>
+
+<div class="cars">
+
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a">
+        <h2>Lamborghini</h2>
+        <p>Luxury + Speed </p>
+    </div>
+
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8">
+        <h2>Ferrari</h2>
+        <p>Italian Beast 🇮🇹</p>
+    </div>
+
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d">
+        <h2>BMW</h2>
+        <p>Performance King </p>
+    </div>
+
+</div>
+
+</body>
+</html>
