@@ -1,0 +1,68 @@
+sudo apt update -y
+sudo apt upgrade -y
+
+sudo apt install openjdk-17-jdk -y
+
+java -version
+
+sudo apt install postgresql postgresql-contrib -y
+
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+sudo -u postgres psql
+
+
+CREATE DATABASE sonarqube;
+CREATE USER sonar WITH ENCRYPTED PASSWORD 'sonar';
+GRANT ALL PRIVILEGES ON DATABASE sonarqube TO sonar;
+\q
+
+
+cd /opt
+sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.3.79811.zip
+
+
+sudo apt install unzip -y
+sudo unzip sonarqube-9.9.3.79811.zip
+sudo mv sonarqube-9.9.3.79811 sonarqube
+
+
+sudo adduser sonar
+sudo chown -R sonar:sonar /opt/sonarqube
+
+sudo nano /opt/sonarqube/conf/sonar.properties
+
+
+sonar.jdbc.username=sonar
+sonar.jdbc.password=sonar
+sonar.jdbc.url=jdbc:postgresql://localhost:5432/sonarqube
+
+
+sudo nano /etc/sysctl.conf
+
+vm.max_map_count=262144
+fs.file-max=65536
+
+sudo sysctl -p
+
+sudo nano /etc/security/limits.conf
+
+sonar   -   nofile   65536
+sonar   -   nproc    4096
+
+sudo su - sonar
+
+/opt/sonarqube/bin/linux-x86-64/sonar.sh start
+
+/opt/sonarqube/bin/linux-x86-64/sonar.sh status
+
+http://EC2-PUBLIC-IP:9000   # open port 9000
+
+username: admin
+password: admin
+
+mvn clean verify sonar:sonar \
+-Dsonar.projectKey=demo-project \
+-Dsonar.host.url=http://13.127.165.243:9000 \
+-Dsonar.login=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
