@@ -18,6 +18,14 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+    
+    stages {
+
+        stage('Sonar test') {
+            steps {
+                sh 'mvn sonar:sonar'
+            }
+        }
 
         stage('Docker Build') {
             steps {
