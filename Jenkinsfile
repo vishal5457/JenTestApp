@@ -18,12 +18,17 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-    
-    stages {
 
-        stage('Sonar test') {
+        stage('SonarQube Analysis') {
             steps {
-                sh 'mvn sonar:sonar'
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=my-app \
+                    -Dsonar.host.url=$SONAR_HOST_URL \
+                    -Dsonar.login=$SONAR_AUTH_TOKEN
+                    '''
+                }
             }
         }
 
