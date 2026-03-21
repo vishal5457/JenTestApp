@@ -10,7 +10,7 @@ sudo apt install -y docker.io
 sudo systemctl start docker
 sudo systemctl enable docker
 
-sudo usermod -aG docker Jenkins
+sudo usermod -aG docker jenkins
 
 sudo systemctl restart jenkins
 sudo systemctl restart docker
