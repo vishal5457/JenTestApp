@@ -29,6 +29,11 @@ sudo apt install -y maven
 
 mvn -version
 
+# Install GitHub In Server 
+
+apt-get install git -y
+
+
 # Install Sonarcube On Another Server 
 
 docker run -d \
